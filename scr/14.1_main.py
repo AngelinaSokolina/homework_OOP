@@ -1,13 +1,13 @@
-
-
 class Product:
-    " "
-    name: str
-    description: str
-    price: float
-    quantity: int
+    "Класс для представления товара"
+
+    name: str           # Название товара
+    description: str    # Описание товара
+    price: float        # Цена товара
+    quantity: int       # Количество товара в наличии
 
     def __init__(self, name, description, price, quantity):
+        "Инициализация товара"
         self.name = name
         self.description = description
         self.price = price
@@ -16,15 +16,17 @@ class Product:
 
 class Category:
     "Класс по подсчету категорий, товаров по категориям"
-    name: str
-    description: str
-    products: list[Product]
+
+    name: str                   # Название категории
+    description: str            # Описание категории
+    products: list[Product]     # Список товаров в категории
 
     # Атрибуты класса (общие для всех объектов)
-    category_count = 0
-    product_count = 0
+    category_count = 0          # Общее количество категорий
+    product_count = 0           # Общее количество товаров
 
     def __init__(self, name, description, products):
+        "Инициализация категории"
         self.name = name
         self.description = description
         self.products = products
@@ -34,35 +36,6 @@ class Category:
 
         # Увеличиваем счётчик товаров на количество товаров в категории
         Category.product_count += len(products)
-
-
-
-
-
-
-
-    # Создание конструктора/инициализатора
-    def __init__(self, name, surname, pay):      # Конструктор
-        """Метод для инициализации экземпляра класса. Задаем значения атрибутам экземпляра."""
-        self.name = name                         # Атрибуты (свойства) класса
-        self.surname = surname
-        self.pay = pay
-        self.email = f'{self.name}.{self.surname}@proton.me'
-        self.number_of_employees = 1             # Будет создан атрибут объекта
-
-        Employee.number_of_employees += 1
-
-    # Создаем методы для повышения зарплаты сотрудника
-    def apply_raise(self):                       # Метод
-        """Метод для повышения зарплаты сотрудника"""
-        self.pay = self.pay * self.raise_amount
-
-    def fullname(self):
-        """Метод, который возвращает полное имя сотрудника"""
-        return f'{self.surname} {self.name}'
-
-
-
 
 
 
