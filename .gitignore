@@ -3,7 +3,6 @@ __pycache__/
 *.pyc
 .env
 .coverage
-htmlcov/
 .pytest_cache/
 .mypy_cache/
 .DS_Store
