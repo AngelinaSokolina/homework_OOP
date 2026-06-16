@@ -1,7 +1,3 @@
-from mypy.dmypy.client import status_parser
-from mypyc.common import SELF_NAME
-
-
 class Product:
     "Класс для представления товара"
 
@@ -14,9 +10,30 @@ class Product:
         "Инициализация товара"
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
+    @classmethod
+    def new_product(cls, name: str, description: str, price: float, quantity: int) -> Product:
+        "Класс-метод для создания продукта из словаря"
+        return cls(
+            name=name,
+            description=description,
+            price=price,
+            quantity=quantity
+        )
+    @property
+    def user_price(self) -> float:
+        """Геттер: возвращает цену"""
+        return self.__price
+
+    @user_price.setter
+    def user_price(self, price: float) -> None:
+        """Сеттер: проверяет цену, НО НЕ УСТАНАВЛИВАЕТ НОВУЮ, если она <= 0"""
+        if price <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+        else:
+            self.__price = price
 
 
 class Category:
