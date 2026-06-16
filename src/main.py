@@ -14,26 +14,26 @@ class Product:
         self.quantity = quantity
 
     @classmethod
-    def new_product(cls, name: str, description: str, price: float, quantity: int) -> Product:
-        "Класс-метод для создания продукта из словаря"
+    def new_product(cls, product_data: dict) -> Product:
         return cls(
-            name=name,
-            description=description,
-            price=price,
-            quantity=quantity
+            name=product_data["name"],
+            description=product_data["description"],
+            price=product_data["price"],
+            quantity=product_data["quantity"],
         )
+
     @property
-    def user_price(self) -> float:
+    def price(self) -> float:
         """Геттер: возвращает цену"""
         return self.__price
 
-    @user_price.setter
-    def user_price(self, price: float) -> None:
+    @price.setter
+    def price(self, user_price: float) -> None:
         """Сеттер: проверяет цену, НО НЕ УСТАНАВЛИВАЕТ НОВУЮ, если она <= 0"""
-        if price <= 0:
+        if user_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
         else:
-            self.__price = price
+            self.__price = user_price
 
 
 class Category:
@@ -53,7 +53,6 @@ class Category:
         self.description = description
         self.__products = products
 
-
         # Увеличиваем счётчик категорий
         Category.category_count += 1
 
@@ -72,5 +71,3 @@ class Category:
         for product in self.__products:
             result_str += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
         return result_str
-
-
