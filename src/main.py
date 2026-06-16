@@ -1,3 +1,7 @@
+from mypy.dmypy.client import status_parser
+from mypyc.common import SELF_NAME
+
+
 class Product:
     "Класс для представления товара"
 
@@ -12,6 +16,7 @@ class Product:
         self.description = description
         self.price = price
         self.quantity = quantity
+
 
 
 class Category:
@@ -29,10 +34,26 @@ class Category:
         "Инициализация категории"
         self.name = name
         self.description = description
-        self.products = products
+        self.__products = products
+
 
         # Увеличиваем счётчик категорий
         Category.category_count += 1
 
         # Увеличиваем счётчик товаров на количество товаров в категории
         Category.product_count += len(products)
+
+    def add_product(self, product: Product) -> None:
+        "Метод для добавления товара в категорию"
+        self.__products.append(product)
+        Category.product_count += 1
+
+    @property
+    def product_list(self) -> str:
+        "Геттер, который возвращает строку со списком товаров"
+        result_str = ""
+        for product in self.__products:
+            result_str += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
+        return result_str
+
+
