@@ -65,9 +65,6 @@ class Category:
         Category.product_count += 1
 
     @property
-    def product_list(self) -> str:
-        "Геттер, который возвращает строку со списком товаров"
-        result_str = ""
-        for product in self.__products:
-            result_str += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
-        return result_str
+    def products(self) -> list:
+        """Геттер возвращает копию списка товаров"""
+        return self.__products.copy()

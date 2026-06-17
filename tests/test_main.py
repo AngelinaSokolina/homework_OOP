@@ -30,8 +30,10 @@ def category_main(product_main: Product) -> Category:  # ← принимает 
 def test_category_init(category_main: Category) -> None:
     assert category_main.name == "Кисломолочные продукты"
     assert category_main.description == "Молоко, кефир, сыры"
-    # Проверяем через геттер
-    assert "Молоко" in category_main.product_list
+    # Проверяем через геттер (теперь это список)
+    products = category_main.products
+    assert len(products) == 1
+    assert products[0].name == "Молоко"
 
 
 def test_category_count() -> None:
@@ -139,15 +141,24 @@ def test_category_add_product() -> None:
     assert Category.product_count == initial_count + 1
 
     # Проверяем, что товар добавился в список (через геттер)
-    product_list_str = category.product_list
-    assert "Товар 1" in product_list_str
-    assert "Товар 2" in product_list_str
+    products = category.products
+    assert len(products) == 2
+    assert products[0].name == "Товар 1"
+    assert products[1].name == "Товар 2"
 
 
-def test_category_product_list_format() -> None:
-    """Проверяет, что геттер product_list возвращает строку в правильном формате"""
+def test_category_product_list_is_copy() -> None:
+    """Проверяет, что геттер возвращает копию списка, а не оригинал"""
     product = Product("Телефон", "Смартфон", 50000, 10)
     category = Category("Электроника", "Описание", [product])
 
-    result = category.product_list
-    assert "Телефон, 50000 руб. Остаток: 10 шт." in result
+    # Получаем список через геттер
+    products_copy = category.products
+
+    # Добавляем в копию
+    new_product = Product("Планшет", "Описание", 30000, 5)
+    products_copy.append(new_product)
+
+    # Оригинальный список не изменился
+    assert len(category.products) == 1
+    assert category.products[0].name == "Телефон"
