@@ -39,7 +39,6 @@ if __name__ == "__main__":
     print(category1.category_count)
     print(category1.product_count)
 
-
     # ===================== Для общей работы ===============================
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
 
@@ -95,4 +94,3 @@ if __name__ == "__main__":
     print(product1 + product2)
     print(product1 + product3)
     print(product2 + product3)
-

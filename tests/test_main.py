@@ -19,6 +19,27 @@ def test_product_init(product_main: Product) -> None:
     assert product_main.quantity == 655
 
 
+# =========== Тестирование __str__ для Product ===========
+
+
+def test_product_str(product_main: Product) -> None:
+    """Проверяет строковое представление продукта"""
+    expected = "Молоко, 100.0 руб. Остаток: 655 шт."
+    assert str(product_main) == expected
+
+
+# =========== Тестирование __add__ для Product ===========
+
+
+def test_product_add() -> None:
+    """Проверяет сложение двух продуктов (общая стоимость на складе)"""
+    p1 = Product("Товар 1", "Описание", 100, 5)
+    p2 = Product("Товар 2", "Описание", 200, 3)
+
+    result = p1 + p2
+    assert result == 1100
+
+
 # =========== Тестирование класса Category ===========
 
 
@@ -48,6 +69,27 @@ def test_empty_category() -> None:
     initial = Category.product_count
     Category("Пустая", "Описание", [])
     assert Category.product_count == initial
+
+
+# =========== Тестирование __str__ для Category ===========
+
+
+def test_category_str(category_main: Category) -> None:
+    """Проверяет строковое представление категории"""
+    expected = "Кисломолочные продукты, количество продуктов: 655 шт."
+    assert str(category_main) == expected
+
+
+def test_category_str_with_multiple_products() -> None:
+    """Проверяет строковое представление категории с несколькими продуктами"""
+    p1 = Product("Молоко", "Описание", 100, 10)
+    p2 = Product("Кефир", "Описание", 80, 5)
+    p3 = Product("Сметана", "Описание", 150, 3)
+
+    category = Category("Молочные продукты", "Описание", [p1, p2, p3])
+
+    expected = "Молочные продукты, количество продуктов: 18 шт."
+    assert str(category) == expected
 
 
 # =========== Тестирование классов Product, Category ===========
