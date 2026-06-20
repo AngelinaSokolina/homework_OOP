@@ -13,6 +13,11 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self)-> str:
+        '''Метод для отображения информации об объекте класса
+        для пользователей'''
+        return f'{self.name}, {self.price} руб. Остаток: {self.quantity} шт.'
+
     @classmethod
     def new_product(cls, product_data: dict) -> Product:
         return cls(
@@ -45,7 +50,7 @@ class Category:
 
     # Атрибуты класса (общие для всех объектов)
     category_count = 0  # Общее количество категорий
-    product_count = 0  # Общее количество товаров
+    product_count = 0  # Общее количество товаров по всем категориям
 
     def __init__(self, name: str, description: str, products: list[Product]) -> None:
         "Инициализация категории"
@@ -58,6 +63,13 @@ class Category:
 
         # Увеличиваем счётчик товаров на количество товаров в категории
         Category.product_count += len(products)
+
+    def __str__(self)-> str:
+        '''Метод для отображения информации об объекте класса
+        для пользователей'''
+        # Общее количество товаров только по этой категории
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f'{self.name}, количество продуктов: {total_quantity} шт.'
 
     def add_product(self, product: Product) -> None:
         "Метод для добавления товара в категорию"
