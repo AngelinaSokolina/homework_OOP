@@ -39,13 +39,11 @@ if __name__ == "__main__":
     print(category1.category_count)
     print(category1.product_count)
 
-    # ===================== Для второго задания задания ===============================
-    print(category1.products)
 
     # ===================== Для общей работы ===============================
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
 
-    # ===================== Для второго задания задания ===============================
+    # ===================== Для второго и третьего  задания задания ===============================
     category1.add_product(product4)
     print(category1.products)
     print(category1.product_count)
@@ -86,3 +84,15 @@ if __name__ == "__main__":
     print(new_product.price)
     new_product.price = 0
     print(new_product.price)
+
+    # ===================== Для второго задания задания ===============================
+    print(str(product1))
+    print(str(product2))
+    print(str(product3))
+
+    print(str(category1))
+
+    print(product1 + product2)
+    print(product1 + product3)
+    print(product2 + product3)
+
