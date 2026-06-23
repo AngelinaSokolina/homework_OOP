@@ -21,7 +21,7 @@ class Product:
     def __add__(self, other: "Product") -> float:
 
         # Проверка на одинаковые классы
-        if not isinstance(other, type(self)):
+        if type(self) is not type(other):
             raise TypeError(f"Нельзя складывать {type(self).__name__} с {type(other).__name__}")
 
         return self.price * self.quantity + other.price * other.quantity
@@ -48,22 +48,41 @@ class Product:
         else:
             self.__price = user_price
 
+
 # Класс наследник
 class Smartphone(Product):
 
-    def __init__(self, name: str, description: str, price: float, quantity: int,
-                 efficiency: float, model: str, memory: int, color: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        efficiency: float,
+        model: str,
+        memory: int,
+        color: str,
+    ) -> None:
         super().__init__(name, description, price, quantity)
         self.efficiency = efficiency
         self.model = model
         self.memory = memory
         self.color = color
 
+
 # Класс наследник
 class LawnGrass(Product):
 
-    def __init__(self, name: str, description: str, price: float, quantity: int,
-                 country: str, germination_period: str, color: str) -> None:
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ) -> None:
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
