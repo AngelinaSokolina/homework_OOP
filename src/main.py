@@ -19,8 +19,12 @@ class Product:
         return f'{self.name}, {self.price:.1f} руб. Остаток: {self.quantity} шт.'
 
     def __add__(self, other: "Product") -> float:
-        if not isinstance(other, Product):
-            return NotImplemented
+        """Двойная проверка перед сложением"""
+
+        # Проверка на одинаковые классы
+        if not isinstance(other, type(self)):
+            raise TypeError(f"Нельзя складывать {type(self).__name__} с {type(other).__name__}")
+
         return self.price * self.quantity + other.price * other.quantity
 
     @classmethod
