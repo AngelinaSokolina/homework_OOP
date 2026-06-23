@@ -327,13 +327,13 @@ def test_add_product_to_category_with_invalid_type_raises_error() -> None:
     category = Category("Смартфоны", "Описание", [])
 
     with pytest.raises(TypeError):
-        category.add_product("Not a product")   # type: ignore
+        category.add_product("Not a product")  # type: ignore
 
     with pytest.raises(TypeError):
-        category.add_product(123)               # type: ignore
+        category.add_product(123)  # type: ignore
 
     with pytest.raises(TypeError):
-        category.add_product(None)              # type: ignore
+        category.add_product(None)  # type: ignore
 
 
 def test_category_with_mixed_products() -> None:
