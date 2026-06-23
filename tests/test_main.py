@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from src.main import Category, Product
+from src.main import Category, Product, Smartphone, LawnGrass
 
 # =========== Тестирование класса Product ===========
 
@@ -204,3 +204,195 @@ def test_category_product_list_is_copy() -> None:
     # Оригинальный список не изменился
     assert len(category.products) == 1
     assert category.products[0].name == "Телефон"
+
+
+# =========== Тестирование классов-наследников ===========
+
+def test_smartphone_init() -> None:
+    """Проверяет инициализацию смартфона"""
+    phone = Smartphone(
+        "Samsung Galaxy S23 Ultra",
+        "256GB, Серый цвет, 200MP камера",
+        180000.0,
+        5,
+        95.5,
+        "S23 Ultra",
+        256,
+        "Серый"
+    )
+
+    assert phone.name == "Samsung Galaxy S23 Ultra"
+    assert phone.description == "256GB, Серый цвет, 200MP камера"
+    assert phone.price == 180000.0
+    assert phone.quantity == 5
+    assert phone.efficiency == 95.5
+    assert phone.model == "S23 Ultra"
+    assert phone.memory == 256
+    assert phone.color == "Серый"
+
+
+def test_lawn_grass_init() -> None:
+    """Проверяет инициализацию газонной травы"""
+    grass = LawnGrass(
+        "Газонная трава",
+        "Элитная трава для газона",
+        500.0,
+        20,
+        "Россия",
+        "7 дней",
+        "Зеленый"
+    )
+
+    assert grass.name == "Газонная трава"
+    assert grass.description == "Элитная трава для газона"
+    assert grass.price == 500.0
+    assert grass.quantity == 20
+    assert grass.country == "Россия"
+    assert grass.germination_period == "7 дней"
+    assert grass.color == "Зеленый"
+
+
+def test_smartphone_inherits_product() -> None:
+    """Проверяет, что Smartphone является наследником Product"""
+    assert issubclass(Smartphone, Product) is True
+
+
+def test_lawn_grass_inherits_product() -> None:
+    """Проверяет, что LawnGrass является наследником Product"""
+    assert issubclass(LawnGrass, Product) is True
+
+
+def test_smartphone_str() -> None:
+    """Проверяет строковое представление смартфона (наследуется от Product)"""
+    phone = Smartphone("iPhone", "Смартфон", 1000.0, 5,
+                       98.0, "15", 512, "Черный")
+    expected = "iPhone, 1000.0 руб. Остаток: 5 шт."
+    assert str(phone) == expected
+
+
+# =========== Тестирование __add__ с проверкой типов ===========
+
+def test_add_same_class_smartphones() -> None:
+    """Проверяет сложение двух смартфонов (один класс)"""
+    phone1 = Smartphone("iPhone", "Описание", 1000, 5,
+                        98.0, "15", 512, "Черный")
+    phone2 = Smartphone("Samsung", "Описание", 2000, 3,
+                        95.0, "S23", 256, "Серый")
+
+    result = phone1 + phone2
+    assert result == 1000 * 5 + 2000 * 3
+
+
+def test_add_same_class_grass() -> None:
+    """Проверяет сложение двух газонных трав (один класс)"""
+    grass1 = LawnGrass("Трава 1", "Описание", 500, 10,
+                       "Россия", "7 дней", "Зеленый")
+    grass2 = LawnGrass("Трава 2", "Описание", 300, 20,
+                       "США", "5 дней", "Темно-зеленый")
+
+    result = grass1 + grass2
+    assert result == 500 * 10 + 300 * 20
+
+
+def test_add_different_classes_raises_type_error() -> None:
+    """Проверяет, что при сложении разных классов возникает TypeError"""
+    phone = Smartphone("iPhone", "Описание", 1000, 5,
+                       98.0, "15", 512, "Черный")
+    grass = LawnGrass("Трава", "Описание", 500, 10,
+                      "Россия", "7 дней", "Зеленый")
+
+    with pytest.raises(TypeError):      # Я ожидаю ошибку TypeError
+        phone + grass
+
+
+def test_add_product_with_smartphone() -> None:
+    """Проверяет, что смартфон можно сложить с продуктом (если Product, не наследник)"""
+    phone = Smartphone("iPhone", "Описание", 1000, 5,
+                       98.0, "15", 512, "Черный")
+    product = Product("Товар", "Описание", 500, 10)
+
+    # type(phone) is not type(product) → разные классы → ошибка
+    with pytest.raises(TypeError):
+        phone + product
+
+
+# =========== Тестирование add_product с проверкой типов ===========
+
+def test_add_product_to_category_with_smartphone() -> None:
+    """Проверяет, что смартфон можно добавить в категорию"""
+    phone = Smartphone("iPhone", "Описание", 1000, 5,
+                       98.0, "15", 512, "Черный")
+    category = Category("Смартфоны", "Описание", [])
+
+    initial_count = Category.product_count
+    category.add_product(phone)
+
+    assert len(category.products) == 1
+    assert Category.product_count == initial_count + 1
+
+
+def test_add_product_to_category_with_grass() -> None:
+    """Проверяет, что газонную траву можно добавить в категорию"""
+    grass = LawnGrass("Трава", "Описание", 500, 10,
+                      "Россия", "7 дней", "Зеленый")
+    category = Category("Трава", "Описание", [])
+
+    initial_count = Category.product_count
+    category.add_product(grass)
+
+    assert len(category.products) == 1
+    assert Category.product_count == initial_count + 1
+
+
+def test_add_product_to_category_with_invalid_type_raises_error() -> None:
+    """Проверяет, что при добавлении не-продукта возникает TypeError"""
+    category = Category("Смартфоны", "Описание", [])
+
+    with pytest.raises(TypeError):
+        category.add_product("Not a product")
+
+    with pytest.raises(TypeError):
+        category.add_product(123)
+
+    with pytest.raises(TypeError):
+        category.add_product(None)
+
+
+def test_category_with_mixed_products() -> None:
+    """Проверяет категорию с разными типами продуктов (Product, Smartphone, LawnGrass)"""
+    # Обнуляем счётчики для чистоты теста
+    Category.category_count = 0
+    Category.product_count = 0
+
+    product = Product("Товар", "Описание", 100, 5)
+    phone = Smartphone("iPhone", "Описание", 1000, 3,
+                       98.0, "15", 512, "Черный")
+    grass = LawnGrass("Трава", "Описание", 500, 10,
+                      "Россия", "7 дней", "Зеленый")
+
+    category = Category("Разное", "Описание", [product, phone, grass])
+
+    assert len(category.products) == 3
+    assert Category.product_count == 5 + 3 + 10
+
+
+# =========== Тестирование наследования __add__ и __str__ ===========
+
+def test_smartphone_uses_product_str() -> None:
+    """Проверяет, что Smartphone использует метод __str__ от Product"""
+    grass = Smartphone("iPhone", "Описание", 1000, 30,
+                       98.0, "15", 512, "Черный")
+
+    expected = "iPhone, 1000.0 руб. Остаток: 30 шт."
+    assert str(grass) == expected
+
+
+def test_grass_uses_product_str() -> None:
+    """Проверяет, что LawnGrass использует метод __str__ от Product"""
+    grass = LawnGrass("Трава", "Описание", 500, 10,
+                      "Россия", "7 дней", "Зеленый")
+
+    expected = "Трава, 500.0 руб. Остаток: 10 шт."
+    assert str(grass) == expected
+
+
