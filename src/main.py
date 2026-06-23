@@ -19,7 +19,6 @@ class Product:
         return f'{self.name}, {self.price:.1f} руб. Остаток: {self.quantity} шт.'
 
     def __add__(self, other: "Product") -> float:
-        """Двойная проверка перед сложением"""
 
         # Проверка на одинаковые классы
         if not isinstance(other, type(self)):
@@ -103,6 +102,9 @@ class Category:
 
     def add_product(self, product: Product) -> None:
         "Метод для добавления товара в категорию"
+        if not isinstance(product, Product):
+            raise TypeError
+
         self.__products.append(product)
         Category.product_count += 1
 
