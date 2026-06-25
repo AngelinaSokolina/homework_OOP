@@ -1,23 +1,31 @@
-from abc import ABC,abstractmethod
+from abc import ABC, abstractmethod
+from typing import Any
+
 
 # Абстрактный класс
 class BaseProduct(ABC):
 
-    @abstractmethod         #Неважно какая работа, главное ее наличие
-    def work(self):
+    @abstractmethod  # Неважно какая работа, главное ее наличие
+    def work(self) -> None:
         """Абстрактный метод, который должен быть реализован в наследниках"""
         pass
 
+
 # Класс-миксин
 class MixinLog:
-    def __init__(self, *args, **kwargs):
+    name: str
+    description: str
+    price: float
+    quantity: int
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """При создании объекта выводит информацию"""
         print(repr(self))  # Вызываем __repr__ для форматирования
-        # super().__init__(*args, **kwargs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Форматирует информацию об объекте"""
         return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.quantity})"
+
 
 # Product наследует BaseProduct и MixinLog
 class Product(BaseProduct, MixinLog):
@@ -36,7 +44,7 @@ class Product(BaseProduct, MixinLog):
         self.quantity = quantity
         super().__init__(name, description, price, quantity)
 
-    def work(self):
+    def work(self) -> None:
         """Реализация абстрактного метода"""
         print(f"Работаем с продуктом: {self.name}")
 

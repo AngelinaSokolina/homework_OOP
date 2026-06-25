@@ -3,14 +3,15 @@ from typing import Any
 
 import pytest
 
-from src.main import Category, LawnGrass, Product, Smartphone, BaseProduct
+from src.main import BaseProduct, Category, LawnGrass, Product, Smartphone
 
 # =========== Абстрактный класса BaseProduct ===========
+
 
 class TestBaseProduct:
     """Тесты для абстрактного класса BaseProduct"""
 
-    def test_base_product_is_abstract(self):
+    def test_base_product_is_abstract(self) -> None:
         """Проверяет, что BaseProduct - абстрактный класс"""
         # Проверяем, что класс существует
         assert BaseProduct is not None
@@ -18,27 +19,27 @@ class TestBaseProduct:
         # Проверяем, что он наследуется от ABC
         assert issubclass(BaseProduct, ABC) is True
 
-    def test_all_products_inherit_base_product(self):
+    def test_all_products_inherit_base_product(self) -> None:
         """Проверяет, что все классы продуктов наследуют BaseProduct"""
         assert issubclass(Product, BaseProduct) is True
         assert issubclass(Smartphone, BaseProduct) is True
         assert issubclass(LawnGrass, BaseProduct) is True
 
-
-    def test_smartphone_has_work_method(self):
+    def test_smartphone_has_work_method(self) -> None:
         """Проверяет, что Smartphone реализует метод work"""
         phone = Smartphone("iPhone", "Описание", 1000, 5, 98.0, "15", 512, "Черный")
         phone.work()
 
-
-    def test_lawn_grass_has_work_method(self):
+    def test_lawn_grass_has_work_method(self) -> None:
         """Проверяет, что LawnGrass реализует метод work"""
         grass = LawnGrass("Трава", "Описание", 500, 10, "Россия", "7 дней", "Зеленый")
         grass.work()
 
+
 # =========== Тест для миксина ===========
 
-def test_mixin_log_output():
+
+def test_mixin_log_output() -> None:
     """Тест, что миксин выводит лог при создании объекта"""
     product = Product("Тест", "Описание", 100, 5)
     assert str(product) == "Тест, 100.0 руб. Остаток: 5 шт."
