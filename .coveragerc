@@ -1,5 +1,6 @@
 [run]
 omit =
-    src/demo.py
+    src/demo_basic.py
+    src/demo_inheritance.py
     *__pycache__*
     *.venv*
