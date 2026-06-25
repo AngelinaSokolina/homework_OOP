@@ -1,8 +1,6 @@
 from src.main import Category, Product
 
 if __name__ == "__main__":
-    # ===================== Для общей работы ===============================
-
     product1 = Product(
         "Samsung Galaxy S23 Ultra",
         "256GB, Серый цвет, 200MP камера",
@@ -27,27 +25,33 @@ if __name__ == "__main__":
     print(product3.price)
     print(product3.quantity)
 
+    print(str(product1))
+    print(str(product2))
+    print(str(product3))
+
+    print(product1 + product2)
+    print(product1 + product3)
+    print(product2 + product3)
+
     category1 = Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
         [product1, product2, product3],
     )
-    # ===================== Для первого задания ===============================
     print(category1.name == "Смартфоны")
     print(category1.description)
     print(len(category1.products))
     print(category1.category_count)
     print(category1.product_count)
 
-    # ===================== Для общей работы ===============================
+    print(str(category1))
+
     product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
 
-    # ===================== Для второго и третьего  задания задания ===============================
     category1.add_product(product4)
     print(category1.products)
     print(category1.product_count)
 
-    # ===================== Для общей работы ===============================
     category2 = Category(
         "Телевизоры",
         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
@@ -62,7 +66,6 @@ if __name__ == "__main__":
     print(Category.category_count)
     print(Category.product_count)
 
-    # ===================== Для второго задания задания ===============================
     new_product = Product.new_product(
         {
             "name": "Samsung Galaxy S23 Ultra",
@@ -83,14 +86,3 @@ if __name__ == "__main__":
     print(new_product.price)
     new_product.price = 0
     print(new_product.price)
-
-    # ===================== Для второго задания задания ===============================
-    print(str(product1))
-    print(str(product2))
-    print(str(product3))
-
-    print(str(category1))
-
-    print(product1 + product2)
-    print(product1 + product3)
-    print(product2 + product3)
