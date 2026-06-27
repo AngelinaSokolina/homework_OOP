@@ -174,11 +174,10 @@ class Category:
 
     def middle_price(self) -> float:
         """Проверка на деление на ноль, при вычислении средней цены всех продуктов"""
-        total_price = sum(product.price for product in self.__products)
-        # Берем количество товаров в КОНКРЕТНОЙ категории
-        total_quantity = sum(product.quantity for product in self.__products)
+        total_cost = sum(product.price * product.quantity for product in self.__products)  # ← Общая СТОИМОСТЬ
+        total_quantity = sum(product.quantity for product in self.__products)  # ← Общее КОЛИЧЕСТВО
         try:
-            result = total_price / total_quantity
+            result = total_cost / total_quantity
             return round(result, 2)
         except ZeroDivisionError:
             return 0
