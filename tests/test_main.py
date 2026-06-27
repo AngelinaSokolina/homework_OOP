@@ -461,7 +461,7 @@ def test_category_middle_price() -> None:
 
     category = Category("Смартфоны", "Разные смартфоны", [phone_1, phone_2])
 
-    assert category.middle_price() == 925.0
+    assert category.middle_price() == 900
 
 def test_category_middle_price_empty() -> None:
     """Тест проверяет, что при пустой категории возвращается 0"""
