@@ -78,12 +78,14 @@ def test_add_product_with_zero_quantity() -> None:
     with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
         phone_1 + Smartphone("iPhone", "Описание", 1000, 0, 98.0, "15", 512, "Черный")
 
+
 def test_raises_value_error_negative_quantity() -> None:
     """Тест проверяет, что при создании товара с отрицательным количеством вызывается ValueError"""
     try:
         Smartphone("iPhone", "Описание", 1000, -5, 98.0, "15", 512, "Черный")
     except TypeError as e:
         print(e)
+
 
 # # =========== Тестирование класса Product ===========
 
@@ -451,6 +453,7 @@ def test_grass_uses_product_str() -> None:
     expected = "Трава, 500.0 руб. Остаток: 10 шт."
     assert str(grass) == expected
 
+
 # =========== Тест middle_price( ===========
 
 
@@ -463,9 +466,8 @@ def test_category_middle_price() -> None:
 
     assert category.middle_price() == 900
 
+
 def test_category_middle_price_empty() -> None:
     """Тест проверяет, что при пустой категории возвращается 0"""
     category = Category("Пустая", "Нет товаров", [])
     assert category.middle_price() == 0
-
-

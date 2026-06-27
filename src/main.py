@@ -26,7 +26,6 @@ class MixinLog:
         else:
             print(repr(self))  # Вызываем __repr__ для форматирования
 
-
     def __repr__(self) -> str:
         """Форматирует информацию об объекте"""
         return f"{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.quantity})"
