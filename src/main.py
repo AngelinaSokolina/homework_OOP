@@ -20,7 +20,11 @@ class MixinLog:
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """При создании объекта выводит информацию"""
-        print(repr(self))  # Вызываем __repr__ для форматирования
+        # Проверка количества товара
+        if args[-1] == 0:
+            raise ValueError('Товар с нулевым количеством не может быть добавлен')
+        else:
+            print(repr(self))  # Вызываем __repr__ для форматирования
 
     def __repr__(self) -> str:
         """Форматирует информацию об объекте"""
@@ -166,3 +170,14 @@ class Category:
     def products(self) -> list:
         """Геттер возвращает копию списка товаров"""
         return self.__products.copy()
+
+    def middle_price(self) -> float:
+        """Подсчет средней цены всех товаров в категории"""
+
+        total_price = sum(product.price for product in self.__products)  # ← ТОЛЬКО ЦЕНЫ
+        total_count = len(self.__products)  # ← КОЛИЧЕСТВО ТОВАРОВ (не единиц на складе!)
+        try:
+            result = total_price / total_count
+            return round(result, 2)
+        except ZeroDivisionError:
+            return 0

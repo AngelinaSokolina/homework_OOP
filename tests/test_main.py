@@ -45,7 +45,49 @@ def test_mixin_log_output() -> None:
     assert str(product) == "Тест, 100.0 руб. Остаток: 5 шт."
 
 
-# =========== Тестирование класса Product ===========
+# =========== Тест проверки количества товара ===========
+def test_raises_normal_quantity() -> None:
+    """Тест проверяет, что товар с нормальным количеством создается без ошибок"""
+    phone = Smartphone("iPhone", "Описание", 1000, 5, 98.0, "15", 512, "Черный")
+    assert phone.quantity == 5
+    assert phone.name == "iPhone"
+
+
+def test_add_products_normal() -> None:
+    """Тест проверяет сложение двух товаров с нормальным количеством"""
+    phone_1 = Smartphone("iPhone", "Описание", 1000, 5, 98.0, "15", 512, "Черный")
+    phone_2 = Smartphone("Samsung", "Описание", 800, 3, 95.0, "S23", 256, "Белый")
+
+    result = phone_1 + phone_2
+    assert result == 5000 + 2400  # 1000*5 + 800*3 = 7400
+
+
+def test_raises_value_error() -> None:
+    """Тест проверяет, что при нулевом значении количества вызывается ValueError"""
+    with pytest.raises(ValueError) as exc_info:
+        Smartphone("iPhone", "Описание", 1000, 0, 98.0, "15", 512, "Черный")
+
+    # Проверяем сообщение исключения
+    assert str(exc_info.value) == 'Товар с нулевым количеством не может быть добавлен'
+
+
+def test_add_product_with_zero_quantity() -> None:
+    """Тест проверяет, что при сложении с товаром у которого количество 0 вызывается ValueError"""
+    phone_1 = Smartphone("iPhone", "Описание", 1000, 5, 98.0, "15", 512, "Черный")
+
+    with pytest.raises(ValueError, match='Товар с нулевым количеством не может быть добавлен'):
+        phone_1 + Smartphone("iPhone", "Описание", 1000, 0, 98.0, "15", 512, "Черный")
+
+
+def test_raises_value_error_negative_quantity() -> None:
+    """Тест проверяет, что при создании товара с отрицательным количеством вызывается ValueError"""
+    try:
+        Smartphone("iPhone", "Описание", 1000, -5, 98.0, "15", 512, "Черный")
+    except TypeError as e:
+        print(e)
+
+
+# # =========== Тестирование класса Product ===========
 
 
 @pytest.fixture()
@@ -410,3 +452,22 @@ def test_grass_uses_product_str() -> None:
 
     expected = "Трава, 500.0 руб. Остаток: 10 шт."
     assert str(grass) == expected
+
+
+# =========== Тест middle_price( ===========
+
+
+def test_category_middle_price() -> None:
+    """Тест проверяет подсчет средней цены в категории"""
+    phone_1 = Smartphone("iPhone", "Описание", 1000, 5, 98.0, "15", 512, "Черный")
+    phone_2 = Smartphone("Samsung", "Описание", 800, 3, 95.0, "S23", 256, "Белый")
+
+    category = Category("Смартфоны", "Разные смартфоны", [phone_1, phone_2])
+
+    assert category.middle_price() == 900
+
+
+def test_category_middle_price_empty() -> None:
+    """Тест проверяет, что при пустой категории возвращается 0"""
+    category = Category("Пустая", "Нет товаров", [])
+    assert category.middle_price() == 0
