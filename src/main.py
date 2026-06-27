@@ -171,3 +171,15 @@ class Category:
     def products(self) -> list:
         """Геттер возвращает копию списка товаров"""
         return self.__products.copy()
+
+    def middle_price(self) -> float:
+        """Проверка на деление на ноль, при вычислении средней цены всех продуктов"""
+        total_price = sum(product.price for product in self.__products)
+        # Берем количество товаров в КОНКРЕТНОЙ категории
+        total_quantity = sum(product.quantity for product in self.__products)
+        try:
+            result = total_price / total_quantity
+            return round(result, 2)
+        except ZeroDivisionError:
+            return 0
+
